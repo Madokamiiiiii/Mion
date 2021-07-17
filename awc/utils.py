@@ -29,7 +29,7 @@ def get_extra(line):
     
     extra_regex = re.search(r'\(https:\/\/anilist\.co\/anime\/[a-zA-Z0-9-\/]+\)(.*)', line)
     
-    if extra_regex != None:
+    if extra_regex is not None:
         extra = extra_regex.group(1)
 
     return extra

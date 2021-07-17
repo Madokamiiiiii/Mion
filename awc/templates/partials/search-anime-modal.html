@@ -62,6 +62,9 @@
 		  card.append(cardBody);
 
 		  cardBody.append($('<p class="card-title">').text(val.title.userPreferred));
+		  cardBody.append($('<p class="card-subtitle">').text(val.genres));
+
+
 	      });
 	  },
 	  failure: function(data) {

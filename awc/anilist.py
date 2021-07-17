@@ -72,8 +72,8 @@ class Anilist:
     '''
 
     GET_ANIME_FROM_ID_QUERY = '''
-    query ($ids: [Int]) {
-        Page(page:1, perPage: 50) {
+    query ($ids: [Int], $page: Int) {
+        Page(page:$page, perPage: 50) {
             pageInfo {
                 currentPage
                 lastPage

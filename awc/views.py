@@ -162,12 +162,26 @@ def edit(request, challenge_name):
         for requirement in parsed_response['requirements']:
             if not requirement['force_raw_edit']:
                 anime_ids.append(int(requirement['anime_id']))
-        
+
+        page = 1
+
         variables = {
-            'ids': anime_ids
+            'ids': anime_ids,
+            'page': page
         }
 
         anime = json.loads(anilist.post_authorised_query(request.session['access_token'], anilist.GET_ANIME_FROM_ID_QUERY, variables))
+
+        hasNextPage = anime['data']['Page']['pageInfo']['hasNextPage']
+        while hasNextPage:
+           page += 1
+           variables = {
+               'ids': anime_ids,
+               'page': page
+           }
+           nextPage = json.loads(anilist.post_authorised_query(request.session['access_token'], anilist.GET_ANIME_FROM_ID_QUERY, variables))
+           anime['data']['Page']['media'].extend(nextPage['data']['Page']['media'])
+           hasNextPage = nextPage['data']['Page']['pageInfo']['hasNextPage']
 
         for i, requirement in enumerate(parsed_response['requirements']):
             if not requirement['force_raw_edit']:
